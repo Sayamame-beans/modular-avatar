@@ -1,9 +1,9 @@
 ﻿---
 sidebar_position: 1
-sidebar_label: 簡単な衣装セットアップ
+sidebar_label: 簡単な衣装のセットアップ
 ---
 
-# 簡単な衣装セットアップ
+# 簡単な衣装のセットアップ
 
 ## チュートリアル
 

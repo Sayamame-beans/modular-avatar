@@ -50,7 +50,7 @@ namespace nadena.dev.modular_avatar.core.armature_lock
             }
         }
 
-        [BurstCompile]
+        //[BurstCompile]
         struct ComputePosition : IJobParallelFor
         {
             [ReadOnly] public NativeArray<BoneStaticData> _boneStatic;
@@ -75,6 +75,7 @@ namespace nadena.dev.modular_avatar.core.armature_lock
 
                 if (TransformState.Differs(mergeSaved, mergeState))
                 {
+                    TransformState.Differs(mergeSaved, mergeState);
                     _fault.Increment();
                 }
 
@@ -174,6 +175,8 @@ namespace nadena.dev.modular_avatar.core.armature_lock
             handle = default;
             if (_disposed) return false;
 
+            LastOp.Complete();
+
             _fault.Value = 0;
             _wroteAny.Value = 0;
 
@@ -199,6 +202,12 @@ namespace nadena.dev.modular_avatar.core.armature_lock
             // Validate parents while that job is running
             for (int i = 0; i < _baseBones.Length; i++)
             {
+                if (_baseBones[i] == null || _mergeBones[i] == null || _baseParentBones[i] == null ||
+                    _mergeParentBones[i] == null)
+                {
+                    return false;
+                }
+
                 if (_baseBones[i].parent != _baseParentBones[i] || _mergeBones[i].parent != _mergeParentBones[i])
                 {
                     return false;
